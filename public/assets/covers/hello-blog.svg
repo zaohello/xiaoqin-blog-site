@@ -1,0 +1,14 @@
+<svg width="1200" height="720" viewBox="0 0 1200 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="720" rx="40" fill="#F8F4EE"/>
+  <circle cx="936" cy="170" r="126" fill="#D9E4DF"/>
+  <circle cx="1030" cy="555" r="180" fill="#E8DDD0"/>
+  <rect x="84" y="96" width="448" height="528" rx="36" fill="#FFF9F3"/>
+  <rect x="120" y="140" width="172" height="14" rx="7" fill="#668178" fill-opacity="0.2"/>
+  <rect x="120" y="180" width="250" height="30" rx="15" fill="#668178"/>
+  <rect x="120" y="236" width="338" height="16" rx="8" fill="#A18E7E" fill-opacity="0.28"/>
+  <rect x="120" y="272" width="290" height="16" rx="8" fill="#A18E7E" fill-opacity="0.2"/>
+  <rect x="120" y="420" width="126" height="40" rx="20" fill="#668178" fill-opacity="0.12"/>
+  <rect x="260" y="420" width="126" height="40" rx="20" fill="#668178" fill-opacity="0.12"/>
+  <text x="610" y="285" fill="#2D2722" font-family="Source Han Serif SC, Noto Serif SC, serif" font-size="82" font-weight="600">你好，博客</text>
+  <text x="610" y="375" fill="#5D534A" font-family="Source Han Sans SC, Noto Sans SC, sans-serif" font-size="30">先把地方搭起来，再慢慢把内容写出来。</text>
+</svg>

@@ -1,0 +1,11 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="512" height="512" rx="120" fill="#F7F3EC"/>
+  <circle cx="404" cy="124" r="64" fill="#DDE8E3"/>
+  <circle cx="132" cy="390" r="88" fill="#E8DED1"/>
+  <rect x="86" y="86" width="340" height="340" rx="96" fill="#FFF9F2"/>
+  <path d="M176 184H336" stroke="#668178" stroke-width="28" stroke-linecap="round"/>
+  <path d="M176 248H300" stroke="#9E8B7B" stroke-width="24" stroke-linecap="round" stroke-opacity="0.6"/>
+  <path d="M176 312H270" stroke="#9E8B7B" stroke-width="24" stroke-linecap="round" stroke-opacity="0.35"/>
+  <circle cx="336" cy="304" r="40" fill="#668178" fill-opacity="0.18"/>
+  <text x="256" y="292" text-anchor="middle" fill="#2D2722" font-family="Source Han Serif SC, Noto Serif SC, serif" font-size="132" font-weight="600">勤</text>
+</svg>

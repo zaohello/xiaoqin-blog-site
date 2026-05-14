@@ -1,0 +1,15 @@
+<svg width="1200" height="720" viewBox="0 0 1200 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="720" rx="40" fill="#F8F4ED"/>
+  <circle cx="980" cy="164" r="116" fill="#DDE7E2"/>
+  <circle cx="1038" cy="536" r="178" fill="#EEE0D2"/>
+  <rect x="92" y="114" width="446" height="494" rx="34" fill="#FFF9F3"/>
+  <path d="M168 214H462" stroke="#668178" stroke-width="18" stroke-linecap="round"/>
+  <path d="M168 268H446" stroke="#A18F80" stroke-width="14" stroke-linecap="round" opacity="0.5"/>
+  <path d="M168 322H426" stroke="#A18F80" stroke-width="14" stroke-linecap="round" opacity="0.35"/>
+  <path d="M168 376H444" stroke="#A18F80" stroke-width="14" stroke-linecap="round" opacity="0.35"/>
+  <path d="M168 430H376" stroke="#A18F80" stroke-width="14" stroke-linecap="round" opacity="0.35"/>
+  <circle cx="214" cy="514" r="40" fill="#668178" fill-opacity="0.14"/>
+  <path d="M214 492L228 518L214 536L200 518L214 492Z" fill="#668178"/>
+  <text x="590" y="286" fill="#2D2722" font-family="Source Han Serif SC, Noto Serif SC, serif" font-size="68" font-weight="600">把写作变成长期的事</text>
+  <text x="590" y="372" fill="#5E544B" font-family="Source Han Sans SC, Noto Sans SC, sans-serif" font-size="30">先写下来，再慢慢修，比一直等更重要。</text>
+</svg>

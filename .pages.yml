@@ -1,0 +1,30 @@
+media:
+  input: public/assets
+  output: /assets
+content:
+  - name: posts
+    label: 文章
+    type: collection
+    path: src/content/posts
+    view:
+      fields: [ title, category, draft, published ]
+    fields:
+      - { name: published, label: 发布时间, type: date, required: true }
+      - { name: updated, label: 更新时间, type: date }
+      - { name: title, label: 标题, type: string, required: true }
+      - { name: category, label: 分类, type: string, required: true }
+      - { name: tags, label: 标签, type: string, list: true }
+      - { name: featured, label: 置顶, type: boolean }
+      - { name: draft, label: 草稿, type: boolean }
+      - { name: image, label: 封面图, type: string }
+      - { name: ogImage, label: 分享图, type: string }
+      - { name: description, label: 摘要, type: text, required: true }
+      - { name: seoTitle, label: SEO 标题, type: string }
+      - { name: seoDescription, label: SEO 描述, type: text }
+      - { name: body, label: 正文, type: rich-text, options: { input: public/assets, output: /assets } }
+  - name: about
+    label: 关于页
+    type: file
+    path: src/content/spec/about.md
+    fields:
+      - { name: body, label: 正文, type: rich-text, options: { input: public/assets, output: /assets } }
