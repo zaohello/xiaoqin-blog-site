@@ -50,7 +50,13 @@ export const profileConfig: ProfileConfig = {
 	avatar: "/assets/avatar-cat.jpg",
 	name: "小勤",
 	bio: "这里写建站、AI 工具、写作练习，也写一些慢慢长出来的想法。",
-	links: [],
+	links: [
+		{
+			name: "Telegram",
+			url: "https://t.me/fanxiaoqin2004",
+			icon: "fa6-brands:telegram",
+		},
+	],
 };
 
 export const licenseConfig: LicenseConfig = {
