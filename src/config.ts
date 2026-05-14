@@ -13,7 +13,7 @@ export const siteConfig: SiteConfig = {
 	ogImage: "/assets/site-cover-sakura-lake.jpg",
 	lang: "zh_CN",
 	themeColor: {
-		hue: 155,
+		hue: 205,
 		fixed: true,
 	},
 	banner: {
