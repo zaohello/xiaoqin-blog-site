@@ -10,7 +10,7 @@ import { LinkPreset } from "./types/config";
 export const siteConfig: SiteConfig = {
 	title: "小勤的博客",
 	subtitle: "记录建站、AI 工具、写作和日常灵感。",
-	ogImage: "/assets/site-cover.svg",
+	ogImage: "/assets/site-cover-sakura-lake.jpg",
 	lang: "zh_CN",
 	themeColor: {
 		hue: 155,
@@ -18,7 +18,7 @@ export const siteConfig: SiteConfig = {
 	},
 	banner: {
 		enable: true,
-		src: "/assets/site-cover.svg",
+		src: "/assets/site-cover-sakura-lake.jpg",
 		position: "center",
 		credit: {
 			enable: false,
