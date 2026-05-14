@@ -47,7 +47,7 @@ export const navBarConfig: NavBarConfig = {
 };
 
 export const profileConfig: ProfileConfig = {
-	avatar: "/assets/avatar.svg",
+	avatar: "/assets/avatar-cat.jpg",
 	name: "小勤",
 	bio: "这里写建站、AI 工具、写作练习，也写一些慢慢长出来的想法。",
 	links: [],
