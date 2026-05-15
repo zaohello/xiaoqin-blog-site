@@ -12,4 +12,4 @@ description: 长时间不登陆谷歌账号登录要验证，不知道什么怎�
 seoTitle: 配置谷歌邮箱
 seoDescription: 从零配置谷歌邮箱保姆级教程
 ---
-/assets/谷歌配置/chrome-3ol8jp82pl.png
+![谷歌邮箱截图](/assets/谷歌配置/chrome-3ol8jp82pl.png)
