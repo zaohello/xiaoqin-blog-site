@@ -56,6 +56,11 @@ export const profileConfig: ProfileConfig = {
 			url: "https://t.me/fanxiaoqin2580",
 			icon: "fa6-brands:telegram",
 		},
+		{
+			name: "QQ",
+			url: "tencent://message/?uin=1105984628&Site=&Menu=yes",
+			icon: "fa6-brands:qq",
+		},
 	],
 };
 
