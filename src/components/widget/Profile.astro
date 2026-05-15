@@ -24,11 +24,54 @@ const config = profileConfig;
         <div class="text-center text-neutral-400 mb-2.5 transition">{config.bio}</div>
         <div class="flex flex-wrap gap-2 justify-center mb-1">
             {config.links.map(item =>
+                item.copyText ? (
+                    <button
+                        type="button"
+                        aria-label={`复制${item.name}`}
+                        title={`复制${item.name}`}
+                        data-profile-copy
+                        data-copy-text={item.copyText}
+                        data-copy-name={item.name}
+                        class="btn-regular rounded-lg h-10 w-10 active:scale-90"
+                    >
+                        <Icon name={item.icon} class="text-[1.2rem]"></Icon>
+                    </button>
+                ) : (
                     <a rel="me" aria-label={item.name} title={item.name} href={item.url} target="_blank" class="btn-regular rounded-lg h-10 w-10 active:scale-90">
                         <Icon name={item.icon} class="text-[1.2rem]"></Icon>
                     </a>
+                )
             )}
         </div>
+        <div id="profile-copy-status" class="text-center text-sm text-neutral-400 min-h-[1.25rem] transition" aria-live="polite"></div>
     </div>
 </div>
+
+<script>
+document.addEventListener("click", async event => {
+    const target = event.target as Element | null;
+    const button = target?.closest("[data-profile-copy]") as HTMLButtonElement | null;
+    if (!button) return;
+
+    event.preventDefault();
+
+    const copyText = button.getAttribute("data-copy-text");
+    const copyName = button.getAttribute("data-copy-name") || "内容";
+    const status = document.getElementById("profile-copy-status");
+    if (!copyText || !status) return;
+
+    try {
+        await navigator.clipboard.writeText(copyText);
+        status.textContent = `${copyName}号已复制：${copyText}`;
+        button.classList.add("success");
+    } catch {
+        status.textContent = `请手动添加${copyName}：${copyText}`;
+    }
+
+    window.setTimeout(() => {
+        status.textContent = "";
+        button.classList.remove("success");
+    }, 1800);
+});
+</script>
 

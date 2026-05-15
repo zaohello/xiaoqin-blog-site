@@ -67,8 +67,9 @@ export type ProfileConfig = {
 	bio?: string;
 	links: {
 		name: string;
-		url: string;
+		url?: string;
 		icon: string;
+		copyText?: string;
 	}[];
 };
 

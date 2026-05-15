@@ -58,8 +58,8 @@ export const profileConfig: ProfileConfig = {
 		},
 		{
 			name: "QQ",
-			url: "tencent://message/?uin=1105984628&Site=&Menu=yes",
 			icon: "fa6-brands:qq",
+			copyText: "1105984628",
 		},
 	],
 };
