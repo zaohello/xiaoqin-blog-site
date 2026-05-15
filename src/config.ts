@@ -53,7 +53,7 @@ export const profileConfig: ProfileConfig = {
 	links: [
 		{
 			name: "Telegram",
-			url: "https://t.me/fanxiaoqin2004",
+			url: "https://t.me/fanxiaoqin2580",
 			icon: "fa6-brands:telegram",
 		},
 	],
