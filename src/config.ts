@@ -49,7 +49,7 @@ export const navBarConfig: NavBarConfig = {
 export const profileConfig: ProfileConfig = {
 	avatar: "/assets/avatar-cat.jpg",
 	name: "小勤",
-	bio: "这里写建站、AI 工具、写作练习，也写一些慢慢长出来的想法。",
+	bio: "此博客更新一些不会过期的方法，更多时效性的信息在tg或者QQ（比如低价Gemini，等小众渠道消息）点击下面图标即可加入频道，频道不定时分享会员羊毛",
 	links: [
 		{
 			name: "Telegram",
