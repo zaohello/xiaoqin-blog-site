@@ -2,9 +2,10 @@ import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
 import crypto from "node:crypto";
-import { pathToFileURL } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
-const DEFAULT_TARGET_ROOT = path.resolve("public/assets");
+const scriptDir = path.dirname(fileURLToPath(import.meta.url));
+const DEFAULT_TARGET_ROOT = path.resolve(scriptDir, "../public/assets");
 const SUPPORTED_MEDIA_EXTENSIONS = new Set([
 	".png",
 	".jpg",
