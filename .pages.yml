@@ -1,30 +1,105 @@
 media:
   input: public/assets
   output: /assets
+
 content:
   - name: posts
-    label: 文章
+    label: "\u6587\u7ae0"
     type: collection
     path: src/content/posts
     view:
-      fields: [ title, category, draft, published ]
+      primary: title
+      fields: [title, category, draft, published]
     fields:
-      - { name: published, label: 发布时间, type: date, required: true }
-      - { name: updated, label: 更新时间, type: date }
-      - { name: title, label: 标题, type: string, required: true }
-      - { name: category, label: 分类, type: string, required: true }
-      - { name: tags, label: 标签, type: string, list: true }
-      - { name: featured, label: 置顶, type: boolean }
-      - { name: draft, label: 草稿, type: boolean }
-      - { name: image, label: 封面图, type: string }
-      - { name: ogImage, label: 分享图, type: string }
-      - { name: description, label: 摘要, type: text, required: true }
-      - { name: seoTitle, label: SEO 标题, type: string }
-      - { name: seoDescription, label: SEO 描述, type: text }
-      - { name: body, label: 正文, type: rich-text, options: { input: public/assets, output: /assets } }
+      - name: published
+        label: "\u53d1\u5e03\u65f6\u95f4"
+        type: date
+        required: true
+      - name: updated
+        label: "\u66f4\u65b0\u65f6\u95f4"
+        type: date
+      - name: title
+        label: "\u6807\u9898"
+        type: string
+        required: true
+      - name: category
+        label: "\u5206\u7c7b"
+        type: string
+        required: true
+      - name: tags
+        label: "\u6807\u7b7e"
+        type: string
+        list: true
+      - name: featured
+        label: "\u7f6e\u9876"
+        type: boolean
+      - name: draft
+        label: "\u8349\u7a3f"
+        type: boolean
+      - name: image
+        label: "\u5c01\u9762\u56fe"
+        type: string
+      - name: ogImage
+        label: "\u5206\u4eab\u56fe"
+        type: string
+      - name: description
+        label: "\u6458\u8981"
+        type: text
+        required: true
+      - name: seoTitle
+        label: "\u0053\u0045\u004f\u0020\u6807\u9898"
+        type: string
+      - name: seoDescription
+        label: "\u0053\u0045\u004f\u0020\u63cf\u8ff0"
+        type: text
+      - name: body
+        label: "\u6b63\u6587"
+        type: rich-text
+        description: "\u5148\u53bb\u5de6\u4fa7\u201c\u5199\u4f5c\u6a21\u677f\u201d\u6311\u4e00\u5957\u559c\u6b22\u7684\u7ed3\u6784\uff0c\u518d\u590d\u5236\u5230\u8fd9\u91cc\u6539\u5185\u5bb9\u4f1a\u66f4\u7701\u4e8b\u3002"
+        options:
+          input: public/assets
+          output: /assets
+
+  - name: writing_templates
+    label: "\u5199\u4f5c\u6a21\u677f"
+    type: collection
+    path: docs/post-templates
+    subfolders: false
+    operations:
+      create: false
+      delete: false
+      rename: false
+    view:
+      primary: title
+      fields: [style, useCase]
+    fields:
+      - name: title
+        label: "\u6a21\u677f\u540d"
+        type: string
+        required: true
+      - name: style
+        label: "\u98ce\u683c"
+        type: string
+        required: true
+      - name: useCase
+        label: "\u9002\u5408\u573a\u666f"
+        type: text
+        required: true
+      - name: body
+        label: "\u6a21\u677f\u6b63\u6587"
+        type: rich-text
+        options:
+          input: public/assets
+          output: /assets
+
   - name: about
-    label: 关于页
+    label: "\u5173\u4e8e\u9875"
     type: file
     path: src/content/spec/about.md
     fields:
-      - { name: body, label: 正文, type: rich-text, options: { input: public/assets, output: /assets } }
+      - name: body
+        label: "\u6b63\u6587"
+        type: rich-text
+        options:
+          input: public/assets
+          output: /assets
