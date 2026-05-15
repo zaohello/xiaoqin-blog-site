@@ -1,3 +1,18 @@
+---
+published: 2026-05-06
+updated: 2026-05-15
+title: 傻瓜式配置谷歌账号防丢失
+category: 随笔
+tags:
+  - 指南
+  - 谷歌邮箱
+featured: true
+draft: false
+image: C:\Users\Administrator\Desktop\图片
+description: 长时间不登陆谷歌账号登录要验证，不知道什么怎么获取验证码，两步验证是什么，这个文章一次性说清楚关于谷歌邮箱的注意事项
+seoTitle: 配置谷歌邮箱
+seoDescription: 从零配置谷歌邮箱保姆级教程
+---
 ﻿---
 published: 2026-05-14T12:00:00Z
 title: 你好，博客
@@ -6,14 +21,16 @@ featured: true
 draft: false
 category: 建站
 tags:
-  - 博客
-  - Astro
-  - Pages CMS
+
+- 博客
+- Astro
+- Pages CMS
 image: /assets/covers/hello-blog.svg
 ogImage: /assets/covers/hello-blog.svg
 description: 这是博客正式搭起来后的第一篇文章，先把站安稳落地，再慢慢把内容写出来。
 seoTitle: 你好，博客
 seoDescription: 记录这个博客为什么要先上线，以及第一版选择了怎样的搭建方式。
+
 ---
 
 终于把博客这件事先推进了一步。
