@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
+import crypto from "node:crypto";
 import { pathToFileURL } from "node:url";
 
 const DEFAULT_TARGET_ROOT = path.resolve("public/assets");
@@ -39,18 +40,26 @@ function ensureDirectoryExists(dirPath) {
 	}
 }
 
-function getUniqueTargetPath(targetDir, originalFileName) {
+function getFileHash(filePath) {
+	return crypto.createHash("sha1").update(fs.readFileSync(filePath)).digest("hex");
+}
+
+function resolveTargetPath(targetDir, originalFileName, sourcePath) {
 	const originalExtension = path.extname(originalFileName);
 	const extension = originalExtension.toLowerCase();
 	const baseName = sanitizeSegment(path.basename(originalFileName, originalExtension)).toLowerCase();
 	const safeBaseName = baseName || "media";
+	const sourceHash = getFileHash(sourcePath);
 
 	let attempt = 1;
 	while (true) {
 		const suffix = attempt === 1 ? "" : `-${attempt}`;
 		const candidate = path.join(targetDir, `${safeBaseName}${suffix}${extension}`);
 		if (!fs.existsSync(candidate)) {
-			return candidate;
+			return { targetPath: candidate, duplicate: false };
+		}
+		if (getFileHash(candidate) === sourceHash) {
+			return { targetPath: candidate, duplicate: true };
 		}
 		attempt += 1;
 	}
@@ -86,6 +95,7 @@ export function importMediaDirectory({ sourceDir, targetRoot = DEFAULT_TARGET_RO
 
 	const copiedFiles = [];
 	let skippedCount = 0;
+	let duplicateCount = 0;
 
 	for (const fileName of files) {
 		if (!isSupportedMediaFile(fileName)) {
@@ -94,7 +104,12 @@ export function importMediaDirectory({ sourceDir, targetRoot = DEFAULT_TARGET_RO
 		}
 
 		const sourcePath = path.join(resolvedSourceDir, fileName);
-		const targetPath = getUniqueTargetPath(targetDir, fileName);
+		const { targetPath, duplicate } = resolveTargetPath(targetDir, fileName, sourcePath);
+
+		if (duplicate) {
+			duplicateCount += 1;
+			continue;
+		}
 
 		fs.copyFileSync(sourcePath, targetPath);
 
@@ -105,7 +120,7 @@ export function importMediaDirectory({ sourceDir, targetRoot = DEFAULT_TARGET_RO
 		});
 	}
 
-	if (copiedFiles.length === 0) {
+	if (copiedFiles.length === 0 && duplicateCount === 0) {
 		throw new Error(`No supported media files found in: ${resolvedSourceDir}`);
 	}
 
@@ -114,6 +129,7 @@ export function importMediaDirectory({ sourceDir, targetRoot = DEFAULT_TARGET_RO
 		targetDir,
 		importedCount: copiedFiles.length,
 		skippedCount,
+		duplicateCount,
 		copiedFiles,
 	};
 }
@@ -126,6 +142,9 @@ function formatResult(result) {
 
 	if (result.skippedCount > 0) {
 		lines.push(`Skipped ${result.skippedCount} unsupported file(s).`);
+	}
+	if (result.duplicateCount > 0) {
+		lines.push(`Skipped ${result.duplicateCount} identical file(s) already in the target folder.`);
 	}
 
 	lines.push("Files:");

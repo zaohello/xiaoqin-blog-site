@@ -70,3 +70,34 @@ test("adds numeric suffixes when imported media names would collide", async () =
 	const importedNames = result.copiedFiles.map((item) => path.basename(item.targetPath)).sort();
 	assert.deepEqual(importedNames, ["my-photo-2.png", "my-photo.png"]);
 });
+
+test("skips importing an identical file that already exists in the target folder", async () => {
+	const { importMediaDirectory, loadError } = await loadImporter();
+	assert.equal(
+		typeof importMediaDirectory,
+		"function",
+		loadError?.stack ?? "Expected scripts/import-media.js to export importMediaDirectory",
+	);
+
+	const sourceDir = makeTempDir("source-media-duplicate-skip");
+	const targetRoot = makeTempDir("target-assets-duplicate-skip");
+	const targetDir = path.join(targetRoot, "album");
+
+	fs.mkdirSync(targetDir, { recursive: true });
+	fs.writeFileSync(path.join(targetDir, "same-file.png"), "identical");
+	fs.writeFileSync(path.join(sourceDir, "same file.png"), "identical");
+
+	const result = importMediaDirectory({
+		sourceDir,
+		targetRoot,
+		targetFolderName: "album",
+	});
+
+	assert.equal(result.importedCount, 0);
+	assert.equal(result.duplicateCount, 1);
+	assert.deepEqual(result.copiedFiles, []);
+	assert.deepEqual(
+		fs.readdirSync(targetDir).sort(),
+		["same-file.png"],
+	);
+});
