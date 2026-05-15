@@ -58,8 +58,9 @@ export const profileConfig: ProfileConfig = {
 		},
 		{
 			name: "QQ群",
-			url: "https://qun.qq.com/universal-share/share?ac=1&authKey=fkXG4aS9yYrwQupVNxrt19M9iEalErkzWGZHiFr7grjl3Fd4AAnH21nnupDfVzyu&busi_data=eyJncm91cENvZGUiOiIxMTA1OTg0NjI4IiwidG9rZW4iOiJXcERZcmZpMnhMWnRnMk1VSFQrNThrRkhKd2dscTREcDNQcE0wbUJ4Ui9WUHBTaDBCSUpOWU53NHdJdTFwYzJrIiwidWluIjoiMzE1MzQ3ODg4OSJ9&data=gp3zYqDEAC1tQx4FfORBSNgtj7fnzMxI_8yrM_4hqBFkaBS5XgRrlO7dKxXib4ynIRuVTt0n4kLIlv9Q_7otSQ&svctype=4&tempid=h5_group_in",
 			icon: "fa6-brands:qq",
+			qrImage: "/assets/qq-group-qr.jpg",
+			qrAlt: "拾用笔记 QQ 群二维码",
 		},
 	],
 };

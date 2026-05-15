@@ -70,6 +70,8 @@ export type ProfileConfig = {
 		url?: string;
 		icon: string;
 		copyText?: string;
+		qrImage?: string;
+		qrAlt?: string;
 	}[];
 };
 

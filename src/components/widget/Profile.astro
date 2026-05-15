@@ -6,9 +6,10 @@ import ImageWrapper from "../misc/ImageWrapper.astro";
 
 const config = profileConfig;
 const hasCopyAction = config.links.some(item => item.copyText);
+const hasQrAction = config.links.some(item => item.qrImage);
 ---
 <div class="card-base p-3">
-    <a aria-label="Go to About Page" href={url('/about/')}
+    <a aria-label="Go to About Page" href={url("/about/")}
        class="group block relative mx-auto mt-1 lg:mx-0 lg:mt-0 mb-3
        max-w-[12rem] lg:max-w-none overflow-hidden rounded-xl active:scale-95">
         <div class="absolute transition pointer-events-none group-hover:bg-black/30 group-active:bg-black/50
@@ -25,7 +26,20 @@ const hasCopyAction = config.links.some(item => item.copyText);
         <div class="text-center text-neutral-400 mb-2.5 transition">{config.bio}</div>
         <div class="flex flex-wrap gap-2 justify-center mb-1">
             {config.links.map(item =>
-                item.copyText ? (
+                item.qrImage ? (
+                    <button
+                        type="button"
+                        aria-label={`查看${item.name}二维码`}
+                        title={`查看${item.name}二维码`}
+                        data-profile-qr
+                        data-qr-image={item.qrImage}
+                        data-qr-alt={item.qrAlt || item.name}
+                        data-qr-name={item.name}
+                        class="btn-regular rounded-lg h-10 w-10 active:scale-90"
+                    >
+                        <Icon name={item.icon} class="text-[1.2rem]"></Icon>
+                    </button>
+                ) : item.copyText ? (
                     <button
                         type="button"
                         aria-label={`复制${item.name}`}
@@ -47,6 +61,31 @@ const hasCopyAction = config.links.some(item => item.copyText);
         {hasCopyAction && <div id="profile-copy-status" class="text-center text-sm text-neutral-400 min-h-[1.25rem] transition" aria-live="polite"></div>}
     </div>
 </div>
+
+{hasQrAction && <div
+    id="profile-qr-modal"
+    class="fixed inset-0 z-[80] hidden items-center justify-center bg-black/70 px-4 backdrop-blur-sm"
+    aria-hidden="true"
+>
+    <button type="button" data-profile-qr-close class="absolute inset-0 cursor-default" aria-label="关闭二维码弹窗"></button>
+    <div class="relative z-10 w-full max-w-sm rounded-[1.75rem] bg-[var(--card-bg)] p-4 shadow-2xl">
+        <button
+            type="button"
+            data-profile-qr-close
+            aria-label="关闭二维码弹窗"
+            class="btn-regular absolute right-3 top-3 h-9 w-9 rounded-full active:scale-90"
+        >
+            <Icon name="fa6-solid:xmark" class="text-base"></Icon>
+        </button>
+        <div class="mb-3 pr-10">
+            <div id="profile-qr-title" class="text-lg font-bold text-black/90 dark:text-white/90 transition"></div>
+            <div class="text-sm text-neutral-400 transition">手机 QQ 扫一扫即可进群</div>
+        </div>
+        <div class="overflow-hidden rounded-[1.25rem] bg-black/5 p-2 dark:bg-white/5">
+            <img id="profile-qr-image" src="" alt="" class="block w-full rounded-[1rem]">
+        </div>
+    </div>
+</div>}
 
 {hasCopyAction && <script>
 document.addEventListener("click", async event => {
@@ -76,3 +115,58 @@ document.addEventListener("click", async event => {
 });
 </script>}
 
+{hasQrAction && <script>
+const profileQrModal = document.getElementById("profile-qr-modal");
+const profileQrImage = document.getElementById("profile-qr-image");
+const profileQrTitle = document.getElementById("profile-qr-title");
+
+function openProfileQrModal(button) {
+    if (!profileQrModal || !(profileQrImage instanceof HTMLImageElement) || !profileQrTitle) return;
+
+    const qrImage = button.getAttribute("data-qr-image");
+    const qrAlt = button.getAttribute("data-qr-alt") || "";
+    const qrName = button.getAttribute("data-qr-name") || "二维码";
+    if (!qrImage) return;
+
+    profileQrImage.src = qrImage;
+    profileQrImage.alt = qrAlt;
+    profileQrTitle.textContent = qrName;
+    profileQrModal.classList.remove("hidden");
+    profileQrModal.classList.add("flex");
+    profileQrModal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("overflow-hidden");
+}
+
+function closeProfileQrModal() {
+    if (!profileQrModal) return;
+
+    profileQrModal.classList.add("hidden");
+    profileQrModal.classList.remove("flex");
+    profileQrModal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("overflow-hidden");
+}
+
+document.addEventListener("click", event => {
+    const target = event.target;
+    if (!(target instanceof Element)) return;
+
+    const qrButton = target.closest("[data-profile-qr]");
+    if (qrButton instanceof HTMLButtonElement) {
+        event.preventDefault();
+        openProfileQrModal(qrButton);
+        return;
+    }
+
+    const closeButton = target.closest("[data-profile-qr-close]");
+    if (closeButton) {
+        event.preventDefault();
+        closeProfileQrModal();
+    }
+});
+
+document.addEventListener("keydown", event => {
+    if (event.key === "Escape") {
+        closeProfileQrModal();
+    }
+});
+</script>}
