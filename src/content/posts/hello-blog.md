@@ -13,5 +13,3 @@ seoTitle: 配置谷歌邮箱
 seoDescription: 从零配置谷歌邮箱保姆级教程
 ---
 ![谷歌邮箱截图](/assets/谷歌配置/chrome-3ol8jp82pl.png)
-
-
