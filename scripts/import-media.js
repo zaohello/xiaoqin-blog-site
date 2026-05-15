@@ -41,6 +41,31 @@ function ensureDirectoryExists(dirPath) {
 	}
 }
 
+function collectFilePathsRecursively(rootDir) {
+	const collected = [];
+
+	function visit(currentDir) {
+		const entries = fs
+			.readdirSync(currentDir, { withFileTypes: true })
+			.sort((left, right) => left.name.localeCompare(right.name, "zh-CN"));
+
+		for (const entry of entries) {
+			const entryPath = path.join(currentDir, entry.name);
+			if (entry.isDirectory()) {
+				visit(entryPath);
+				continue;
+			}
+
+			if (entry.isFile()) {
+				collected.push(entryPath);
+			}
+		}
+	}
+
+	visit(rootDir);
+	return collected;
+}
+
 function getFileHash(filePath) {
 	return crypto.createHash("sha1").update(fs.readFileSync(filePath)).digest("hex");
 }
@@ -88,23 +113,19 @@ export function importMediaDirectory({ sourceDir, targetRoot = DEFAULT_TARGET_RO
 	ensureDirectoryExists(resolvedTargetRoot);
 	ensureDirectoryExists(targetDir);
 
-	const entries = fs.readdirSync(resolvedSourceDir, { withFileTypes: true });
-	const files = entries
-		.filter((entry) => entry.isFile())
-		.map((entry) => entry.name)
-		.sort((left, right) => left.localeCompare(right, "zh-CN"));
+	const files = collectFilePathsRecursively(resolvedSourceDir);
 
 	const copiedFiles = [];
 	let skippedCount = 0;
 	let duplicateCount = 0;
 
-	for (const fileName of files) {
-		if (!isSupportedMediaFile(fileName)) {
+	for (const sourcePath of files) {
+		const fileName = path.basename(sourcePath);
+		if (!isSupportedMediaFile(sourcePath)) {
 			skippedCount += 1;
 			continue;
 		}
 
-		const sourcePath = path.join(resolvedSourceDir, fileName);
 		const { targetPath, duplicate } = resolveTargetPath(targetDir, fileName, sourcePath);
 
 		if (duplicate) {
