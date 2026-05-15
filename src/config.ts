@@ -59,8 +59,8 @@ export const profileConfig: ProfileConfig = {
 		{
 			name: "QQ群",
 			icon: "fa6-brands:qq",
-			copyText: "1105984628",
-			copyHint: "这是群号，请用 QQ 搜索群号加入",
+			qrImage: "/assets/qq-group-qr-square.jpg",
+			qrAlt: "QQ群二维码",
 		},
 	],
 };

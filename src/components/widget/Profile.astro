@@ -5,7 +5,7 @@ import { url } from "../../utils/url-utils";
 import ImageWrapper from "../misc/ImageWrapper.astro";
 
 const config = profileConfig;
-const hasCopyAction = config.links.some(item => item.copyText);
+const hasQrAction = config.links.some(item => item.qrImage);
 ---
 <div class="card-base p-3">
     <a aria-label="Go to About Page" href={url("/about/")}
@@ -25,15 +25,14 @@ const hasCopyAction = config.links.some(item => item.copyText);
         <div class="text-center text-neutral-400 mb-2.5 transition">{config.bio}</div>
         <div class="flex flex-wrap gap-2 justify-center mb-1">
             {config.links.map(item =>
-                item.copyText ? (
+                item.qrImage ? (
                     <button
                         type="button"
-                        aria-label={`复制${item.name}`}
-                        title={`复制${item.name}`}
-                        data-profile-copy
-                        data-copy-text={item.copyText}
-                        data-copy-name={item.name}
-                        data-copy-hint={item.copyHint || ""}
+                        aria-label={`查看${item.name}二维码`}
+                        title={`查看${item.name}二维码`}
+                        data-profile-qr
+                        data-qr-image={item.qrImage}
+                        data-qr-alt={item.qrAlt || item.name}
                         class="btn-regular rounded-lg h-10 w-10 active:scale-90"
                     >
                         <Icon name={item.icon} class="text-[1.2rem]"></Icon>
@@ -45,41 +44,75 @@ const hasCopyAction = config.links.some(item => item.copyText);
                 )
             )}
         </div>
-        {hasCopyAction && <div id="profile-copy-status" class="text-center text-sm text-neutral-400 min-h-[1.25rem] transition" aria-live="polite"></div>}
     </div>
 </div>
 
+{hasQrAction && <div
+    id="profile-qr-modal"
+    class="fixed inset-0 z-[80] hidden items-center justify-center bg-black/75 px-4 backdrop-blur-sm"
+    aria-hidden="true"
+>
+    <button type="button" data-profile-qr-close class="absolute inset-0 cursor-default" aria-label="关闭二维码弹窗"></button>
+    <div class="relative z-10 w-full max-w-[22rem]">
+        <button
+            type="button"
+            data-profile-qr-close
+            aria-label="关闭二维码弹窗"
+            class="btn-regular absolute -right-2 -top-2 z-10 h-10 w-10 rounded-full active:scale-90"
+        >
+            <Icon name="fa6-solid:xmark" class="text-base"></Icon>
+        </button>
+        <div class="overflow-hidden rounded-[1.75rem] border border-white/10 bg-[var(--card-bg)] p-3 shadow-2xl">
+            <img id="profile-qr-image" src="" alt="" class="block aspect-square w-full rounded-[1.25rem] object-cover">
+        </div>
+    </div>
+</div>}
+
 <script is:inline>
-document.addEventListener("click", async event => {
+document.addEventListener("click", event => {
     const target = event.target;
     if (!(target instanceof Element)) return;
 
-    const copyButton = target.closest("[data-profile-copy]");
-    if (!(copyButton instanceof HTMLButtonElement)) return;
+    const profileQrModal = document.getElementById("profile-qr-modal");
+    const profileQrImage = document.getElementById("profile-qr-image");
 
-    event.preventDefault();
+    const qrButton = target.closest("[data-profile-qr]");
+    if (qrButton instanceof HTMLButtonElement) {
+        event.preventDefault();
+        if (!profileQrModal || !(profileQrImage instanceof HTMLImageElement)) return;
 
-    const copyText = copyButton.getAttribute("data-copy-text");
-    const copyName = copyButton.getAttribute("data-copy-name") || "内容";
-    const copyHint = copyButton.getAttribute("data-copy-hint");
-    const status = document.getElementById("profile-copy-status");
-    if (!copyText || !status) return;
+        const qrImage = qrButton.getAttribute("data-qr-image");
+        const qrAlt = qrButton.getAttribute("data-qr-alt") || "";
+        if (!qrImage) return;
 
-    try {
-        await navigator.clipboard.writeText(copyText);
-        status.textContent = copyHint
-            ? `${copyHint}：${copyText}`
-            : `${copyName}已复制：${copyText}`;
-        copyButton.classList.add("success");
-    } catch {
-        status.textContent = copyHint
-            ? `${copyHint}：${copyText}`
-            : `请手动添加${copyName}：${copyText}`;
+        profileQrImage.src = qrImage;
+        profileQrImage.alt = qrAlt;
+        profileQrModal.classList.remove("hidden");
+        profileQrModal.classList.add("flex");
+        profileQrModal.setAttribute("aria-hidden", "false");
+        document.body.classList.add("overflow-hidden");
+        return;
     }
 
-    window.setTimeout(() => {
-        status.textContent = "";
-        copyButton.classList.remove("success");
-    }, 2200);
+    const closeButton = target.closest("[data-profile-qr-close]");
+    if (closeButton && profileQrModal) {
+        event.preventDefault();
+        profileQrModal.classList.add("hidden");
+        profileQrModal.classList.remove("flex");
+        profileQrModal.setAttribute("aria-hidden", "true");
+        document.body.classList.remove("overflow-hidden");
+    }
+});
+
+document.addEventListener("keydown", event => {
+    if (event.key !== "Escape") return;
+
+    const profileQrModal = document.getElementById("profile-qr-modal");
+    if (!profileQrModal) return;
+
+    profileQrModal.classList.add("hidden");
+    profileQrModal.classList.remove("flex");
+    profileQrModal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("overflow-hidden");
 });
 </script>
