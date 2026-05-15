@@ -87,86 +87,78 @@ const hasQrAction = config.links.some(item => item.qrImage);
     </div>
 </div>}
 
-{hasCopyAction && <script>
+<script is:inline>
 document.addEventListener("click", async event => {
-    const target = event.target as Element | null;
-    const button = target?.closest("[data-profile-copy]") as HTMLButtonElement | null;
-    if (!button) return;
+    const target = event.target;
+    if (!(target instanceof Element)) return;
 
-    event.preventDefault();
+    const copyButton = target.closest("[data-profile-copy]");
+    if (copyButton instanceof HTMLButtonElement) {
+        event.preventDefault();
 
-    const copyText = button.getAttribute("data-copy-text");
-    const copyName = button.getAttribute("data-copy-name") || "内容";
-    const status = document.getElementById("profile-copy-status");
-    if (!copyText || !status) return;
+        const copyText = copyButton.getAttribute("data-copy-text");
+        const copyName = copyButton.getAttribute("data-copy-name") || "内容";
+        const status = document.getElementById("profile-copy-status");
+        if (!copyText || !status) return;
 
-    try {
-        await navigator.clipboard.writeText(copyText);
-        status.textContent = `${copyName}号已复制：${copyText}`;
-        button.classList.add("success");
-    } catch {
-        status.textContent = `请手动添加${copyName}：${copyText}`;
+        try {
+            await navigator.clipboard.writeText(copyText);
+            status.textContent = `${copyName}号已复制：${copyText}`;
+            copyButton.classList.add("success");
+        } catch {
+            status.textContent = `请手动添加${copyName}：${copyText}`;
+        }
+
+        window.setTimeout(() => {
+            status.textContent = "";
+            copyButton.classList.remove("success");
+        }, 1800);
+        return;
     }
 
-    window.setTimeout(() => {
-        status.textContent = "";
-        button.classList.remove("success");
-    }, 1800);
+    const profileQrModal = document.getElementById("profile-qr-modal");
+    const profileQrImage = document.getElementById("profile-qr-image");
+    const profileQrTitle = document.getElementById("profile-qr-title");
+
+    const qrButton = target.closest("[data-profile-qr]");
+    if (qrButton instanceof HTMLButtonElement) {
+        event.preventDefault();
+        if (!profileQrModal || !(profileQrImage instanceof HTMLImageElement) || !profileQrTitle) return;
+
+        const qrImage = qrButton.getAttribute("data-qr-image");
+        const qrAlt = qrButton.getAttribute("data-qr-alt") || "";
+        const qrName = qrButton.getAttribute("data-qr-name") || "二维码";
+        if (!qrImage) return;
+
+        profileQrImage.src = qrImage;
+        profileQrImage.alt = qrAlt;
+        profileQrTitle.textContent = qrName;
+        profileQrModal.classList.remove("hidden");
+        profileQrModal.classList.add("flex");
+        profileQrModal.setAttribute("aria-hidden", "false");
+        document.body.classList.add("overflow-hidden");
+        return;
+    }
+
+    const closeButton = target.closest("[data-profile-qr-close]");
+    if (closeButton && profileQrModal) {
+        event.preventDefault();
+        profileQrModal.classList.add("hidden");
+        profileQrModal.classList.remove("flex");
+        profileQrModal.setAttribute("aria-hidden", "true");
+        document.body.classList.remove("overflow-hidden");
+    }
 });
-</script>}
 
-{hasQrAction && <script>
-const profileQrModal = document.getElementById("profile-qr-modal");
-const profileQrImage = document.getElementById("profile-qr-image");
-const profileQrTitle = document.getElementById("profile-qr-title");
+document.addEventListener("keydown", event => {
+    if (event.key !== "Escape") return;
 
-function openProfileQrModal(button) {
-    if (!profileQrModal || !(profileQrImage instanceof HTMLImageElement) || !profileQrTitle) return;
-
-    const qrImage = button.getAttribute("data-qr-image");
-    const qrAlt = button.getAttribute("data-qr-alt") || "";
-    const qrName = button.getAttribute("data-qr-name") || "二维码";
-    if (!qrImage) return;
-
-    profileQrImage.src = qrImage;
-    profileQrImage.alt = qrAlt;
-    profileQrTitle.textContent = qrName;
-    profileQrModal.classList.remove("hidden");
-    profileQrModal.classList.add("flex");
-    profileQrModal.setAttribute("aria-hidden", "false");
-    document.body.classList.add("overflow-hidden");
-}
-
-function closeProfileQrModal() {
+    const profileQrModal = document.getElementById("profile-qr-modal");
     if (!profileQrModal) return;
 
     profileQrModal.classList.add("hidden");
     profileQrModal.classList.remove("flex");
     profileQrModal.setAttribute("aria-hidden", "true");
     document.body.classList.remove("overflow-hidden");
-}
-
-document.addEventListener("click", event => {
-    const target = event.target;
-    if (!(target instanceof Element)) return;
-
-    const qrButton = target.closest("[data-profile-qr]");
-    if (qrButton instanceof HTMLButtonElement) {
-        event.preventDefault();
-        openProfileQrModal(qrButton);
-        return;
-    }
-
-    const closeButton = target.closest("[data-profile-qr-close]");
-    if (closeButton) {
-        event.preventDefault();
-        closeProfileQrModal();
-    }
 });
-
-document.addEventListener("keydown", event => {
-    if (event.key === "Escape") {
-        closeProfileQrModal();
-    }
-});
-</script>}
+</script>
